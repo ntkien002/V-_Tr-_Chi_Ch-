@@ -28,6 +28,28 @@ Khi người dùng đặt email của mình ở chế độ riêng tư, thông t
    }
    ```
 
+### **Phản hồi từ API (Response):**
+
+
+
+```json
+{
+  "status": "success",
+  "message": "Invitation sent successfully to the user.",
+  "data": {
+    "org_id": "59a5809f-2ba1-43de-b6d7-3ca104b79d80",
+    "people": [
+      {
+        "id": "<ID_nạn_nhân>",
+        "email": "nạn_nhân@example.com",
+        "status": "pending",
+        "invitation_sent_at": "2025-02-20T16:30:00Z"
+      }
+    ]
+  }
+}
+```
+
 3. **Bước 3: Tiết lộ email**
 
    * Khi lời mời được gửi và người dùng nhận được thông báo, email của họ bị lộ ra mặc dù đã được cài đặt ở chế độ riêng tư.
