@@ -1,13 +1,6 @@
 ## 🔓 **Báo cáo Lỗ hổng Truy cập Trái phép vào Bảng Điều Khiển Quản Trị**
 
-**🆔 Report ID:** #2801787
-**🎯 Mục tiêu:** MTN Group
-**📆 Ngày báo cáo:** 24/10/2024
-**📣 Trạng thái:** Đã giải quyết
-**⚠️ Mức độ nghiêm trọng:** **Critical (9.1)**
-**💰 Tiền thưởng:** Không tiết lộ
-**🧠 Loại lỗ hổng:** Improper Access Control – Admin Panel Registration Bypass
-
+# https://hackerone.com/reports/2801787
 ---
 
 ## 1️⃣ **Mô tả tóm tắt**
