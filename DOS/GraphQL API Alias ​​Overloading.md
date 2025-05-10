@@ -15,6 +15,9 @@ GraphQL cho phép sử dụng alias (bí danh) để thực hiện cùng một t
 Một request POST đến GraphQL endpoint có thể trông như sau:
 
 ```graphql
+  POST /query
+  ...
+  (Body)
 {
   alias1: typename { field1, field2, ... }
   alias2: typename { field1, field2, ... }
