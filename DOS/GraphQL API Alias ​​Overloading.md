@@ -6,6 +6,7 @@ lỗ hổng bảo mật trong GraphQL API sử dụng kỹ thuật Alias Overloa
 
 GraphQL cho phép sử dụng alias (bí danh) để thực hiện cùng một truy vấn nhiều lần trong một yêu cầu duy nhất. Khi tính năng này bị lạm dụng, kẻ tấn công có thể:
 
+0. có thể bypass cơ chế tối ưu qua cách thay đổi nội dung của 1 alias đánh lừa Server cho rằng là yêu cầu mới và thực hiện.
 1. Gửi một truy vấn GraphQL duy nhất nhưng chứa hàng trăm hoặc hàng nghìn alias
 2. Mỗi alias sẽ kích hoạt một lần xử lý riêng trên máy chủ
 3. Điều này làm cạn kiệt tài nguyên của máy chủ (CPU, bộ nhớ, kết nối DB)
