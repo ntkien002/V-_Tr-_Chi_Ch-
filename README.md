@@ -2,16 +2,40 @@
 **MỤC LỤC**
 
 1. **Nhận dạng (THÔNG TIN)**
-   1.1.: Tiến hành Khám phá và Trinh sát Công cụ Tìm kiếm để Rò rỉ Thông tin
-   1.2.: Máy chủ Web vân tay
-   1.3.: Xem lại các tệp siêu dữ liệu của máy chủ web để tìm rò rỉ thông tin
-   1.4.: Liệt kê các ứng dụng trên máy chủ web
-   1.5.: Xem lại các bình luận và siêu dữ liệu trang web để tìm rò rỉ thông tin
-   1.6.: Xác định điểm nhập ứng dụng
-   1.7.: Bản đồ các đường dẫn thực hiện thông qua ứng dụng
-   1.8.: Khung ứng dụng web vân tay
-   1.9.: Ứng dụng Web vân tay
-   1.10.: Kiến trúc ứng dụng bản đồ
+
+### 1.1. Tiến hành Khám phá và Trinh sát Công cụ Tìm kiếm để Rò rỉ Thông tin:
+- Sử dụng Google Dorks để tìm các tệp hoặc thông tin nhạy cảm trên một trang web.
+-  Ví dụ: Tìm các tệp PDF chứa thông tin nhạy cảm trên một domain cụ thể: site:example.com filetype:pdf "confidential".
+### 1.2. Máy chủ Web vân tay:
+- Xác định loại máy chủ web (như Apache, Nginx) bằng cách kiểm tra tiêu đề HTTP.
+- Ví dụ: Sử dụng lệnh curl -I http://example.com để xem tiêu đề Server: Apache/2.4.41.
+### 1.3. Xem lại các tệp siêu dữ liệu của máy chủ web để tìm rò rỉ thông tin:
+- Kiểm tra các tệp như robots.txt hoặc sitemap.xml để tìm thông tin về cấu trúc trang web.
+- Ví dụ: Truy cập http://example.com/robots.txt và thấy dòng Disallow: /admin, tiết lộ thư mục quản trị.
+### 1.4. Liệt kê các ứng dụng trên máy chủ web:
+- Dùng công cụ như WhatWeb hoặc Wappalyzer để liệt kê các ứng dụng hoặc CMS (như WordPress, Joomla) chạy trên máy chủ.
+- Ví dụ: Chạy whatweb example.com và nhận kết quả: WordPress[4.9.8], PHP[7.2].
+### 1.5. Xem lại các bình luận và siêu dữ liệu trang web để tìm rò rỉ thông tin:
+- Kiểm tra mã nguồn HTML để tìm các bình luận hoặc siêu dữ liệu (metadata) chứa thông tin nhạy cảm.
+- Ví dụ: Trong mã nguồn HTML của http://example.com, tìm thấy bình luận <!-- API Key: 12345xyz -->.
+### 1.6. Xác định điểm nhập ứng dụng:
+- Tìm các điểm nhập như biểu mẫu đăng nhập, API endpoint, hoặc trang quản trị.
+- Ví dụ: Truy cập http://example.com/login và phát hiện một biểu mẫu đăng nhập không được bảo vệ.
+### 1.7. Bản đồ các đường dẫn thực hiện thông qua ứng dụng:
+- Sử dụng công cụ như Burp Suite để thu thập và lập bản đồ các URL mà ứng dụng sử dụng.
+- Ví dụ: Sau khi thu thập, phát hiện các URL như http://example.com/api/v1/users và http://example.com/admin.
+### 1.8. Khung ứng dụng web vân tay:
+- Xác định khung công tác (framework) như Django, Laravel thông qua các dấu hiệu như cookie hoặc cấu trúc URL.
+- Ví dụ: Trang web sử dụng cookie sessionid cho thấy khả năng dùng Django: curl http://example.com | grep sessionid.
+### 1.9. Ứng dụng Web vân tay:
+- Xác định ứng dụng cụ thể (như phpMyAdmin, Joomla) bằng cách kiểm tra các tệp hoặc thư mục đặc trưng.
+- Ví dụ: Truy cập http://example.com/phpmyadmin và xác nhận phiên bản phpMyAdmin đang chạy.
+### 1.10. Kiến trúc ứng dụng bản đồ:
+- Vẽ sơ đồ cách ứng dụng tương tác, bao gồm máy chủ, cơ sở dữ liệu, và API.
+- Ví dụ: Sử dụng công cụ như OWASP ZAP để lập bản đồ, thấy ứng dụng gọi API tại http://api.example.com và kết nối với cơ sở dữ liệu MySQL.
+
+
+
 
 2. **Kiểm tra quản lý cấu hình và triển khai (CẤU HÌNH)**
    2.1.: Cấu hình mạng/cơ sở hạ tầng thử nghiệm
