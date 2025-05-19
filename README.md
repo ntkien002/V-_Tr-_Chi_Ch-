@@ -1,38 +1,25 @@
 
 **MỤC LỤC**
 
-1. **Nhận dạng (THÔNG TIN)**
+# 1. **Nhận dạng (THÔNG TIN)**
 
-### 1.1. Tiến hành Khám phá và Trinh sát Công cụ Tìm kiếm để Rò rỉ Thông tin:
-- Sử dụng Google Dorks để tìm các tệp hoặc thông tin nhạy cảm trên một trang web.
--  Ví dụ: Tìm các tệp PDF chứa thông tin nhạy cảm trên một domain cụ thể: site:example.com filetype:pdf "confidential".
-### 1.2. Máy chủ Web vân tay:
-- Xác định loại máy chủ web (như Apache, Nginx) bằng cách kiểm tra tiêu đề HTTP.
-- Ví dụ: Sử dụng lệnh curl -I http://example.com để xem tiêu đề Server: Apache/2.4.41.
-### 1.3. Xem lại các tệp siêu dữ liệu của máy chủ web để tìm rò rỉ thông tin:
-- Kiểm tra các tệp như robots.txt hoặc sitemap.xml để tìm thông tin về cấu trúc trang web.
-- Ví dụ: Truy cập http://example.com/robots.txt và thấy dòng Disallow: /admin, tiết lộ thư mục quản trị.
-### 1.4. Liệt kê các ứng dụng trên máy chủ web:
-- Dùng công cụ như WhatWeb hoặc Wappalyzer để liệt kê các ứng dụng hoặc CMS (như WordPress, Joomla) chạy trên máy chủ.
-- Ví dụ: Chạy whatweb example.com và nhận kết quả: WordPress[4.9.8], PHP[7.2].
-### 1.5. Xem lại các bình luận và siêu dữ liệu trang web để tìm rò rỉ thông tin:
-- Kiểm tra mã nguồn HTML để tìm các bình luận hoặc siêu dữ liệu (metadata) chứa thông tin nhạy cảm.
-- Ví dụ: Trong mã nguồn HTML của http://example.com, tìm thấy bình luận <!-- API Key: 12345xyz -->.
-### 1.6. Xác định điểm nhập ứng dụng:
-- Tìm các điểm nhập như biểu mẫu đăng nhập, API endpoint, hoặc trang quản trị.
-- Ví dụ: Truy cập http://example.com/login và phát hiện một biểu mẫu đăng nhập không được bảo vệ.
-### 1.7. Bản đồ các đường dẫn thực hiện thông qua ứng dụng:
-- Sử dụng công cụ như Burp Suite để thu thập và lập bản đồ các URL mà ứng dụng sử dụng.
-- Ví dụ: Sau khi thu thập, phát hiện các URL như http://example.com/api/v1/users và http://example.com/admin.
-### 1.8. Khung ứng dụng web vân tay:
-- Xác định khung công tác (framework) như Django, Laravel thông qua các dấu hiệu như cookie hoặc cấu trúc URL.
-- Ví dụ: Trang web sử dụng cookie sessionid cho thấy khả năng dùng Django: curl http://example.com | grep sessionid.
-### 1.9. Ứng dụng Web vân tay:
-- Xác định ứng dụng cụ thể (như phpMyAdmin, Joomla) bằng cách kiểm tra các tệp hoặc thư mục đặc trưng.
-- Ví dụ: Truy cập http://example.com/phpmyadmin và xác nhận phiên bản phpMyAdmin đang chạy.
-### 1.10. Kiến trúc ứng dụng bản đồ:
-- Vẽ sơ đồ cách ứng dụng tương tác, bao gồm máy chủ, cơ sở dữ liệu, và API.
-- Ví dụ: Sử dụng công cụ như OWASP ZAP để lập bản đồ, thấy ứng dụng gọi API tại http://api.example.com và kết nối với cơ sở dữ liệu MySQL.
+Dưới đây là bảng tổng hợp rõ ràng và có cấu trúc theo từng bước của quá trình **Khám phá và Trinh sát (Reconnaissance & Discovery)** trong pentest web:
+
+| **STT**  | **Hoạt động**                     | **Chi tiết**                                           | **Ví dụ**                                                 |
+| -------- | --------------------------------- | ------------------------------------------------------ | --------------------------------------------------------- |
+| **1.1**  | Khai thác công cụ tìm kiếm        | Sử dụng Google Dorks để tìm thông tin nhạy cảm         | `site:example.com filetype:pdf "confidential"`            |
+| **1.2**  | Vân tay máy chủ web               | Kiểm tra loại máy chủ qua tiêu đề HTTP                 | `curl -I http://example.com` → `Server: Apache/2.4.41`    |
+| **1.3**  | Phân tích tệp siêu dữ liệu        | Xem `robots.txt`, `sitemap.xml` để thu thập thông tin  | `http://example.com/robots.txt` → `Disallow: /admin`      |
+| **1.4**  | Liệt kê ứng dụng chạy trên server | Dùng WhatWeb hoặc Wappalyzer để xác định CMS           | `whatweb example.com` → `WordPress[4.9.8], PHP[7.2]`      |
+| **1.5**  | Tìm rò rỉ trong mã HTML           | Phân tích comment và metadata                          | `<!-- API Key: 12345xyz -->` trong mã nguồn               |
+| **1.6**  | Xác định điểm nhập ứng dụng       | Tìm login forms, admin pages, API endpoint             | `http://example.com/login` có form đăng nhập không bảo vệ |
+| **1.7**  | Lập bản đồ các endpoint           | Dùng Burp Suite để thu thập URL                        | Phát hiện: `/api/v1/users`, `/admin`                      |
+| **1.8**  | Vân tay framework                 | Nhận dạng Django, Laravel,... qua cookies/URL          | `sessionid` → Có thể là Django                            |
+| **1.9**  | Vân tay ứng dụng web              | Xác định ứng dụng như phpMyAdmin qua thư mục đặc trưng | `http://example.com/phpmyadmin`                           |
+| **1.10** | Bản đồ kiến trúc ứng dụng         | Vẽ sơ đồ liên kết server, API, DB                      | Dùng Burp suite → `api.example.com` → MySQL backend        |
+
+Bảng này giúp bu có cái nhìn tổng quát, dễ tra cứu và chuẩn hóa khi lập kế hoạch tấn công bước đầu. Nếu cần bu viết lại bản này thành checklist markdown để dùng trong bug bounty recon flow thì nói bu nhé.
+
 
 
 
