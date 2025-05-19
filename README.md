@@ -18,23 +18,31 @@ Dưới đây là bảng tổng hợp rõ ràng và có cấu trúc theo từng 
 | **1.9**  | Vân tay ứng dụng web              | Xác định ứng dụng như phpMyAdmin qua thư mục đặc trưng | `http://example.com/phpmyadmin`                           |
 | **1.10** | Bản đồ kiến trúc ứng dụng         | Vẽ sơ đồ liên kết server, API, DB                      | Dùng Burp suite → `api.example.com` → MySQL backend        |
 
-Bảng này giúp bu có cái nhìn tổng quát, dễ tra cứu và chuẩn hóa khi lập kế hoạch tấn công bước đầu. Nếu cần bu viết lại bản này thành checklist markdown để dùng trong bug bounty recon flow thì nói bu nhé.
 
 
 
-
+---
 
 2. **Kiểm tra quản lý cấu hình và triển khai (CẤU HÌNH)**
-   2.1.: Cấu hình mạng/cơ sở hạ tầng thử nghiệm
-   2.2.: Cấu hình nền tảng ứng dụng thử nghiệm
-   2.3.: Kiểm tra phần mở rộng tệp xử lý thông tin nhạy cảm
-   2.4.: Sao lưu và các tập tin không có tham chiếu cho thông tin nhạy cảm
-   2.5.: Liệt kê các giao diện quản trị cơ sở hạ tầng và ứng dụng
-   2.6.: Kiểm tra phương pháp HTTP
-   2.7.: Kiểm tra bảo mật truyền tải HTTP nghiêm ngặt
-   2.8.: Kiểm tra chính sách miền chéo RIA
-   2.9.: Kiểm tra quyền tập tin
-   2.10.: Kiểm tra việc tiếp quản tên miền phụ
+ Dưới đây là bảng tổng hợp cho bước **2. Chuẩn bị Môi trường Thử nghiệm (Testing Environment Setup)**, cấu trúc tương tự phần 1:
+
+| **STT**  | **Hoạt động**                                      | **Chi tiết**                                                                                         | **Ví dụ**                                                                                                       |
+| -------- | -------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
+| **2.1**  | Cấu hình mạng / cơ sở hạ tầng thử nghiệm           | Thiết lập mạng riêng biệt (VLAN, VPN) và quy tắc firewall để tránh ảnh hưởng lên môi trường sản xuất | VLAN 192.168.100.0/24, firewall chỉ cho phép HTTP(S) từ IP của pentester                                        |
+| **2.2**  | Cấu hình nền tảng ứng dụng thử nghiệm              | Triển khai phiên bản staging/dev của ứng dụng với cùng stack công nghệ và cấu hình tương tự sản xuất | Dùng Docker Compose để khởi tạo webapp (Nginx+PHP) và database (MySQL)                                          |
+| **2.3**  | Kiểm tra phần mở rộng tệp xử lý thông tin nhạy cảm | Xác định xem server có cho phép upload hoặc phục vụ các extension chứa data nhạy cảm hay không       | Phát hiện file .bak, .old, .sql nằm trong thư mục public\_html                                                  |
+| **2.4**  | Kiểm tra file sao lưu và tập tin vô tham chiếu     | Tìm kiếm các bản backup, các file cũ không còn link nhưng vẫn tồn tại trên server                    | `config.php.bak`, `database.sql.gz` rơi vào thư mục `/backup/` nhưng có thể truy cập qua web                    |
+| **2.5**  | Liệt kê giao diện quản trị                         | Xác định các panel quản trị hạ tầng (router, switch) và ứng dụng (CMS, API admin)                    | Phát hiện phpMyAdmin ở `http://test.example.com/phpmyadmin` và trang /admin của WordPress                       |
+| **2.6**  | Kiểm tra phương thức HTTP                          | Kiểm tra các HTTP methods được server chấp nhận (PUT, DELETE, TRACE…)                                | `curl -X OPTIONS http://test.example.com -i` → cho phép `DELETE`                                                |
+| **2.7**  | Kiểm tra bảo mật truyền tải HTTP nghiêm ngặt       | Xác minh HSTS, TLS version, cipher suite, redirect HTTP→HTTPS                                        | `curl -I https://test.example.com` → có header `Strict-Transport-Security: max-age=63072000; includeSubDomains` |
+| **2.8**  | Kiểm tra chính sách cross‑domain (CORS / RIA)      | Đánh giá header `Access-Control-Allow-*`, xác định domain nào được phép cross‑origin                 | `curl -I http://api.test.example.com` → `Access-Control-Allow-Origin: *`                                        |
+| **2.9**  | Kiểm tra quyền file hệ thống                       | Xem permission và ownership của các file/config nhạy cảm                                             | `ls -l /var/www/html/config.php` → `-rw-r--r--` (644) nên để 600                                                |
+| **2.10** | Kiểm tra tiếp quản subdomain                       | Phát hiện DNS records trỏ đến dịch vụ cloud không sử dụng hoặc “dang dở”                             | `sub.test.example.com` CNAME → `xyz.s3.amazonaws.com` nhưng bucket S3 đã bị xóa → có thể takeover               |
+
+Nếu cần chi tiết hơn hoặc chuyển sang checklist Markdown để trực tiếp dùng trong flow bug bounty, cứ bảo bu nhé!
+
+
+---
 
 3. **Kiểm tra quản lý danh tính (IDENT)**
    3.1.: Định nghĩa vai trò kiểm tra
