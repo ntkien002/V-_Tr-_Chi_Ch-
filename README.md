@@ -3,7 +3,7 @@
 
 # 1. **Nhận dạng (THÔNG TIN)**
 
-Dưới đây là bảng tổng hợp rõ ràng và có cấu trúc theo từng bước của quá trình **Khám phá và Trinh sát (Reconnaissance & Discovery)** trong pentest web:
+**Khám phá và Trinh sát (Reconnaissance & Discovery)** trong pentest web:
 
 | **STT**  | **Hoạt động**                     | **Chi tiết**                                           | **Ví dụ**                                                 |
 | -------- | --------------------------------- | ------------------------------------------------------ | --------------------------------------------------------- |
@@ -24,7 +24,7 @@ Dưới đây là bảng tổng hợp rõ ràng và có cấu trúc theo từng 
 ---
 
 2. **Kiểm tra quản lý cấu hình và triển khai (CẤU HÌNH)**
- Dưới đây là bảng tổng hợp cho bước **2. Chuẩn bị Môi trường Thử nghiệm (Testing Environment Setup)**, cấu trúc tương tự phần 1:
+** Chuẩn bị Môi trường Thử nghiệm (Testing Environment Setup)**, cấu trúc tương tự phần 1:
 
 | **STT**  | **Hoạt động**                                      | **Chi tiết**                                                                                         | **Ví dụ**                                                                                                       |
 | -------- | -------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
@@ -39,31 +39,50 @@ Dưới đây là bảng tổng hợp rõ ràng và có cấu trúc theo từng 
 | **2.9**  | Kiểm tra quyền file hệ thống                       | Xem permission và ownership của các file/config nhạy cảm                                             | `ls -l /var/www/html/config.php` → `-rw-r--r--` (644) nên để 600                                                |
 | **2.10** | Kiểm tra tiếp quản subdomain                       | Phát hiện DNS records trỏ đến dịch vụ cloud không sử dụng hoặc “dang dở”                             | `sub.test.example.com` CNAME → `xyz.s3.amazonaws.com` nhưng bucket S3 đã bị xóa → có thể takeover               |
 
-Nếu cần chi tiết hơn hoặc chuyển sang checklist Markdown để trực tiếp dùng trong flow bug bounty, cứ bảo bu nhé!
+
 
 
 ---
 
 3. **Kiểm tra quản lý danh tính (IDENT)**
-   3.1.: Định nghĩa vai trò kiểm tra
-   3.2.: Quy trình đăng ký người dùng thử nghiệm
-   3.3.: Quy trình cung cấp tài khoản thử nghiệm
-   3.4.: Kiểm tra để đếm tài khoản và đoán được tài khoản người dùng
-   3.5.: Kiểm tra chính sách tên người dùng yếu hoặc không được thực thi
-   3.6.: Kiểm tra quyền của tài khoản khách/đào tạo
-   3.7.: Quy trình tạm dừng/tiếp tục tài khoản thử nghiệm
+ Quản lý Tài khoản Thử nghiệm (Test Account Management)**:
+
+| **STT** | **Hoạt động**                                    | **Chi tiết**                                                                                         | **Ví dụ**                                                                                             |
+| ------- | ------------------------------------------------ | ---------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| **3.1** | Định nghĩa vai trò kiểm tra                      | Xác định rõ các quyền và phạm vi của từng loại tài khoản (Admin, User, Guest, Tester…)               | Phân quyền: Tester chỉ có quyền đọc; User có quyền đọc/ghi; Admin có quyền toàn bộ                    |
+| **3.2** | Quy trình đăng ký người dùng thử nghiệm          | Thiết lập form hoặc API để tạo tài khoản thử nghiệm, đảm bảo có xác thực captcha hoặc email verify   | Gửi email kích hoạt đến [tester@example.com](mailto:tester@example.com) trước khi kích hoạt tài khoản |
+| **3.3** | Quy trình cung cấp tài khoản thử nghiệm          | Cung cấp thông tin đăng nhập (username/password) cho tester qua kênh an toàn (e.g. vault, PGP email) | Lưu credentials trên HashiCorp Vault, chỉ tester mới có quyền truy cập                                |
+| **3.4** | Kiểm tra để đếm tài khoản và đoán được tài khoản | Tìm lỗ hổng enumeration qua API hoặc response timing để phát hiện số lượng và pattern tài khoản      | Gọi `GET /api/users?page=1` và đoán username theo index (user1, user2…)                               |
+| **3.5** | Kiểm tra chính sách tên người dùng               | Đánh giá độ mạnh, độ dài tối thiểu và ký tự cho phép của username; thử bypass rule                   | Tạo username “admin ” (có khoảng trắng) hoặc “<script>” qua form đăng ký để kiểm tra validate         |
+| **3.6** | Kiểm tra quyền của tài khoản Guest/Đào tạo       | Xác minh tài khoản hạn chế không thể truy cập vùng hoặc API không thuộc quyền                        | Dùng Guest account thử truy cập `/admin/dashboard` → phải trả về 403                                  |
+| **3.7** | Quy trình tạm dừng/tiếp tục tài khoản thử nghiệm | Thực hiện disable/enable tài khoản khi không cần dùng, đảm bảo token/ session bị thu hồi             | Chạy API `POST /users/{id}/disable` → user bị logout, không thể login lại cho đến khi enable lại      |
+
+
+
+
+---
 
 4. **Kiểm tra xác thực (XÁC THỰC)**
-   4.1.: Kiểm tra thông tin xác thực được truyền qua kênh được mã hóa
-   4.2.: Kiểm tra thông tin xác thực mặc định
-   4.3.: Kiểm tra cơ chế khóa yếu
-   4.4.: Kiểm tra để bỏ qua lược đồ xác thực
-   4.5.: Kiểm tra chức năng ghi nhớ mật khẩu
-   4.6.: Kiểm tra điểm yếu của bộ nhớ đệm trình duyệt
-   4.7.: Kiểm tra chính sách mật khẩu yếu
-   4.8.: Kiểm tra câu hỏi/câu trả lời bảo mật yếu
-   4.9.: Kiểm tra chức năng thay đổi hoặc đặt lại mật khẩu yếu
-   4.10.: Kiểm tra xác thực yếu hơn trong kênh thay thế
+ **Kiểm thử Xác thực (Authentication Testing)**:
+
+| **STT**  | **Hoạt động**                                            | **Chi tiết**                                                                                                      | **Ví dụ**                                                                                       |
+| -------- | -------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
+| **4.1**  | Kiểm tra thông tin xác thực qua kênh được mã hóa         | Đảm bảo credentials (username/password, tokens) luôn đi qua HTTPS/TLS, không để lộ qua HTTP hoặc kênh không kỳ mã | Quan sát `POST /login` phải là `https://`; nếu `http://` → MITM sniff credentials               |
+| **4.2**  | Kiểm tra thông tin xác thực mặc định                     | Xem có tài khoản mặc định (admin/admin, root/password) chưa được đổi mật khẩu sau deploy                          | Đăng nhập với `admin:admin` hoặc `root:password` thành công                                     |
+| **4.3**  | Kiểm tra cơ chế khóa tài khoản yếu                       | Test số lần đăng nhập sai trước khi khóa, thời gian khóa, khả năng reset tự động                                  | Thử 10 lần sai mật khẩu vẫn không bị khóa, hoặc khóa nhưng tự mở lại sau 1 phút                 |
+| **4.4**  | Kiểm tra bypass lược đồ xác thực                         | Xác minh không thể vượt qua authentication bằng kỹ thuật như HTTP verb tampering, URL parameter tampering         | Gửi `GET /admin?auth=true` thay vì POST; nếu vẫn truy cập được → bypass                         |
+| **4.5**  | Kiểm tra chức năng “ghi nhớ mật khẩu” (Remember Me)      | Đánh giá độ an toàn của cookie “remember\_me”: HttpOnly, Secure, expiration, khả năng forge                       | Cookie `remember_me=abcd1234` không có flag Secure/HttpOnly và thời gian quá dài                |
+| **4.6**  | Kiểm tra điểm yếu bộ nhớ đệm trình duyệt (Browser Cache) | Đảm bảo không cache trang chứa sensitive data sau logout                                                          | Logout rồi bấm Back trên trình duyệt vẫn xem được `/dashboard` → cache control header chưa đúng |
+| **4.7**  | Kiểm tra chính sách mật khẩu yếu                         | Đánh giá độ dài tối thiểu, complexity, blacklist, kiểm tra cho phép mật khẩu yếu như “123456”                     | Cho phép đặt password “password” hoặc “123456” mà không báo lỗi                                 |
+| **4.8**  | Kiểm tra câu hỏi bảo mật yếu                             | Xem câu hỏi/đáp bảo mật dễ đoán hoặc reuse, khả năng bruteforce                                                   | Câu hỏi “Tên thú cưng đầu tiên” quá phổ biến, thử “Fluffy” thành công reset mật khẩu            |
+| **4.9**  | Kiểm tra chức năng thay đổi/đặt lại mật khẩu             | Đánh giá quy trình reset: token duy nhất, hết hạn, gửi email xác thực, không leak user ID                         | Reset link chứa user\_id=1001 dễ đoán → thử đổi thành 1002 để reset mật khẩu của user khác      |
+| **4.10** | Kiểm tra xác thực kênh thay thế (out-of-band) yếu        | Đánh giá phương pháp xác thực qua SMS/email/OTP, khả năng replay, man-in-the-middle                               | Nhận OTP rồi resend request cũ hoặc reuse OTP sau khi đã dùng lần đầu → vẫn được chấp nhận      |
+
+
+
+
+
+---
 
 5. **Kiểm tra ủy quyền (AUTHZ)**
    5.1.: Kiểm tra duyệt thư mục/bao gồm tệp
