@@ -16,51 +16,7 @@ Dưới đây là **Mục lục** với các liên kết đến từng phần. B
 
 ---
 
-<!-- Sau đây là ví dụ các tiêu đề đã định nghĩa trong tài liệu -->
 
-# 1. **Nhận dạng (THÔNG TIN)**
-
-...
-
-# 2. **Kiểm tra quản lý cấu hình và triển khai (CẤU HÌNH)**
-
-...
-
-# 3. **Kiểm tra quản lý danh tính (IDENT)**
-
-...
-
-# 4. **Kiểm tra xác thực (XÁC THỰC)**
-
-...
-
-# 5. **Kiểm tra ủy quyền (AUTHZ)**
-
-...
-
-# 6. **Kiểm tra quản lý phiên (PHIÊN)**
-
-...
-
-# 7. **Kiểm tra xác thực dữ liệu (INPVAL)**
-
-...
-
-# 8. **Xử lý lỗi (ERR)**
-
-...
-
-# 9. **Mật mã học (CRYPST)**
-
-...
-
-# 10. **Kiểm tra logic kinh doanh (BUSLOGIC)**
-
-...
-
-# 11. **Kiểm tra phía khách hàng (KHÁCH HÀNG)**
-
-...
 
 
 ---
