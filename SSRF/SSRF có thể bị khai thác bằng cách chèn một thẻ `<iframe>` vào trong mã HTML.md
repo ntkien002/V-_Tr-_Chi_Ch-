@@ -19,6 +19,6 @@ Khi mã này được xử lý mà không được kiểm tra vệ sinh đúng c
 ```html
 <iframe src="http://localhost/some/directory"></iframe>
 ```
-```
+```html
 <iframe src="file:///C:/Windows/win.ini" width="500" height="500">
 ```
