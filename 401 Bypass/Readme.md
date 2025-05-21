@@ -26,7 +26,7 @@
 
 * [ ] **Bypass kiểm tra phân quyền (Function Level Access Control)**
 
-  ```
+  ```json
   GET /admin/profile   -> 401  
   GET /Admin/profile   -> 200  
 
@@ -35,7 +35,7 @@
 
   * Tìm các endpoint có chứa ID bị index trên Google:
 
-    ```
+    ```html
     inurl:"/user?id=" site:target.com
     ```
 
@@ -45,7 +45,7 @@
 
 * [ ] **Thay đổi loại file**
 
-  ```
+  ```json
   GET /user_data/2341        -> 401  
   GET /user_data/2341.json   -> 200  
   GET /user_data/2341.xml    -> 200  
