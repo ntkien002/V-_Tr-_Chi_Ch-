@@ -16,7 +16,7 @@ Kẻ tấn công có thể chèn vào một `iframe` độc hại trong giá tr�
 Khi mã này được xử lý mà không được kiểm tra vệ sinh đúng cách, nó sẽ được đưa vào báo cáo phân tích, và iframe sẽ được tải từ địa chỉ của kẻ tấn công.
 
 Đọc file nội bộ:
-```
+```html
 <iframe src="http://localhost/some/directory"></iframe>
 ```
 ```
