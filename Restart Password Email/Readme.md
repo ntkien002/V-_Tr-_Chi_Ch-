@@ -13,11 +13,15 @@ email[]=test@gmail.com&email[]=test01@gmail.com
 email=test@gmail.com%0ABcc:test01@gmail.com
 email=test@gmail.com%0Ato:test01@gmail.com%0ABcc:test01@gmail.com
 email=test@gmail.com%0D%0ABcc:test01@gmail.com
+email[0]=test@gmail.com&email[1]=test01@gmail.com
+```
+---
+```
 bcc:email=test@gmail.com
 bcc=email=test@gmail.com
 bcc[0]=test@gmail.com&bcc[1]=test01@gmail.com
 bcc="test@gmail.com\r\nBcc:test01@gmail.com"
-email[0]=test@gmail.com&email[1]=test01@gmail.com
+
 ```
 
 ---
