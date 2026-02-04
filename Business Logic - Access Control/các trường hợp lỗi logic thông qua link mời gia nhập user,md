@@ -1,1 +1,4 @@
-
+# 1. link mời gia nhập tài khoản không có quyền hạn tương ứng hoặc tài khoản mới tạo
+# 2. link mời gia nhập bị đóng vẫn vào được
+# 3. link mời gia nhập và xem được thông tin các nhân pii của người dùng
+# 4. link mời gia nhập người dùng nhưng khi xóa người bị mời vẫn có thể xem được thông tin của họ hoặc thao tác
