@@ -1,3 +1,5 @@
+# https://hackerone.com/reports/3235855
+
 
 **Loại lỗi:** Business Logic / Access Control (CWE-284)
 
