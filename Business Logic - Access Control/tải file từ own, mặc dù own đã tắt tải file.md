@@ -1,4 +1,4 @@
-# https://hackerone.com/reports/2380133
+
 
 
 **Loại lỗi:** Broken / Improper Access Control
@@ -60,73 +60,10 @@ User2 mở file trong viewer và chọn các option sau:
 ➡️ App hiển thị:
 
 ```
-Download completed
+Download not permission
 ```
+### coppy link của file và Bypass bằng Curl thành công
 
-➡️ File được lưu vào thiết bị ❌
-
----
-
-#### 🖼️ Image (.png / .jpg)
-
-* `Use image as`
-
-  * Wallpaper
-  * Avatar
-  * Contact photo
-
-➡️ File được ghi vào **internal storage** ❌
-
----
-
-### Response bug (logic)
-
-* Không có lỗi
-* Không có deny từ backend
-* App xử lý export như **download hợp lệ**
-
----
-
-## Các định dạng bị ảnh hưởng
-
-✅ Bị leak:
-
-* `.pdf`
-* `.odt`
-* `.odp`
-* `.png`, `.jpg`
-
-⚠️ Không tải được / lỗi:
-
-* `.mp3`, `.mp4`, `.txt` → xem được, không tải
-* `.md`, `.csv` → viewer load lỗi
-* `File > Save as` → infinite loading (UI bug)
-
----
-
-## Bản chất lỗi
-
-* Quyền **Allow download**:
-
-  * Enforced đúng ở Web
-  * ❌ Không enforced đầy đủ ở Android viewer
-* Viewer cho phép:
-
-  * Export
-  * Convert
-  * Use-as
-    → **Bypass logic “no-download”**
-
----
-
-## Impact
-
-* Leak tài liệu nhạy cảm
-* Bypass quyền chia sẻ
-* Đặc biệt nguy hiểm với:
-
-  * PDF hợp đồng
-  * Tài liệu nội bộ
-  * Hình ảnh riêng tư
-
----
+```
+ curl: http://abc.com/dowload/a.pdf 
+```
